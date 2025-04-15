@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>사칙연산</title>
+  </head>
+  <body>
+    <h1>사칙연산</h1>
+    <h3 th:text="${name1}"></h3>
+    <form action="" method="post">
+      <input type="text" name="num1" id="num1" size="5" />
+      <select name="op" id="op">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+      </select>
+      <input type="text" name="num2" id="num2" size="5" />
+      <button type="submit">계산</button>
+    </form>
+    <div id="result">
+      <span th:text="${calcDTO?.num1}"></span>
+      <span th:text="${calcDTO?.op}"></span>
+      <span th:text="${calcDTO?.num2}"></span>
+      =
+      <span th:text="${calcDTO?.result}"></span>
+    </div>
+  </body>
+</html>

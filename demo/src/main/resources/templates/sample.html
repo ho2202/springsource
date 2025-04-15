@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample</title>
+  </head>
+  <body>
+    <h3>객체 값 출력</h3>
+    <h4 th:text="${name}"></h4>
+    <h4>[[${name}]]</h4>
+    <input type="text" name="" id="" th:value="${name}" />
+    <h4 th:text="${dto}"></h4>
+    <ul>
+      <li>ID: <span th:text="${dto.id}"></span></li>
+      <li>first: <span th:text="${dto.first}"></span></li>
+      <li>last: <span th:text="${dto.last}"></span></li>
+      <li>regTime: <span th:text="${dto.regDateTime}"></span></li>
+    </ul>
+    <ul>
+      <!-- foreach dto 출력-->
+      <li th:each="dto : ${list}" th:text="${dto}"></li>
+    </ul>
+    <table>
+      <tr>
+        <th>아이디</th>
+        <th>first</th>
+        <th>last</th>
+        <th>regTime</th>
+      </tr>
+      <tr th:each="dto : ${list}">
+        <td th:text="${dto.id}"></td>
+        <td th:text="${dto.first}"></td>
+        <td th:text="${dto.last}"></td>
+        <td th:text="${#temporals.format(dto.regDateTime, 'yyyy-MM-dd')}"></td>
+      </tr>
+    </table>
+    <!--each 쓸 때 state를 이용해 추가 정보 추출-->
+    <table>
+      <tr>
+        <th>아이디</th>
+        <th>first</th>
+        <th>last</th>
+        <th>regTime</th>
+        <th>index</th>
+        <th>count</th>
+        <th>size</th>
+        <th>odd/even</th>
+      </tr>
+      <tr th:each="dto, state : ${list}">
+        <td th:text="${dto.id}"></td>
+        <td th:text="${dto.first}"></td>
+        <td th:text="${dto.last}"></td>
+        <td th:text="${#temporals.format(dto.regDateTime, 'yyyy-MM-dd')}"></td>
+        <td th:text="${state.index}"></td>
+        <td th:text="${state.count}"></td>
+        <td th:text="${state.size}"></td>
+        <td th:text="${state.odd} + '/' + ${state.even}"></td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th>아이디</th>
+        <th>first</th>
+        <th>last</th>
+        <th>regTime</th>
+      </tr>
+      <tr th:each="dto : ${list}" th:if="${dto.id % 5==0}">
+        <td th:text="${dto.id}"></td>
+        <td th:text="${dto.first}"></td>
+        <td th:text="${dto.last}"></td>
+        <td th:text="${#temporals.format(dto.regDateTime, 'yyyy-MM-dd')}"></td>
+      </tr>
+    </table>
+    <ul>
+      <li th:each="dto : ${list}">
+        <!-- th:if if-else와 같음 같은 조건을 넣어야 함-->
+        <span th:if="${dto.id % 5 == 0}" th:text="${'======='+dto.id}"></span>
+        <span th:unless="${dto.id % 5== 0}" th:text="${dto.id}"></span>
+      </li>
+    </ul>
+    <h3>삼항 연산자</h3>
+    <li th:each="dto : ${list}">
+      <span th:text="${dto.id % 5 == 0}?${'======='+dto.id}: ${dto.id}"></span>
+    </li>
+    <h3>스위치-케이스 변경</h3>
+    <li th:each="dto, state : ${list}" th:switch="${state.even}">
+      <span th:case="true" th:text="${dto.first}"></span>
+      <span th:case="false" th:text="${dto.last}"></span>
+    </li>
+    <script>
+        // 오류 아님
+      const name= [[${name}]]
+    </script>
+  </body>
+</html>
