@@ -18,8 +18,8 @@
       <li>regTime: <span th:text="${dto.regDateTime}"></span></li>
     </ul>
     <ul>
-      <!-- foreach dto 출력-->
-      <li th:each="dto : ${list}" th:text="${dto}"></li>
+      <!-- foreach dto 출력>
+      <li-- th:each="dto : ${list}" th:text="${dto}"></li-->
     </ul>
     <table>
       <tr>
@@ -30,7 +30,9 @@
       </tr>
       <tr th:each="dto : ${list}">
         <td th:text="${dto.id}"></td>
-        <td th:text="${dto.first}"></td>
+        <td>
+          <a th:href="@{ex2(id=${dto.id})}" th:text="${dto.first}"></a>
+        </td>
         <td th:text="${dto.last}"></td>
         <td th:text="${#temporals.format(dto.regDateTime, 'yyyy-MM-dd')}"></td>
       </tr>
@@ -73,11 +75,11 @@
       </tr>
     </table>
     <ul>
-      <li th:each="dto : ${list}">
-        <!-- th:if if-else와 같음 같은 조건을 넣어야 함-->
+      <!--li th:each="dto : ${list}">
+        < th:if if-else와 같음 같은 조건을 넣어야 함>
         <span th:if="${dto.id % 5 == 0}" th:text="${'======='+dto.id}"></span>
         <span th:unless="${dto.id % 5== 0}" th:text="${dto.id}"></span>
-      </li>
+      </li-->
     </ul>
     <h3>삼항 연산자</h3>
     <li th:each="dto : ${list}">
@@ -88,9 +90,21 @@
       <span th:case="true" th:text="${dto.first}"></span>
       <span th:case="false" th:text="${dto.last}"></span>
     </li>
+    <ul>
+      <li><a th:href="@{/ex1(param1='data1',param2=10)}">ex1</a></li>
+    </ul>
+    <h3>thymeleaf 유틸</h3>
+    <ul>
+      <li th:text="${price}"></li>
+      <li th:text="${#numbers.formatInteger(price, 3, 'COMMA')}"></li>
+      <li th:text="${option}"></li>
+      <li th:text="${#lists.contains(option, 'AAA')}"></li>
+      <li th:text="${#dates.format(now, 'dd/MMM/yyyy HH:mm')}"></li>
+      <li th:text="${#strings.replace(title,'s','<b>s</b>')}"></li>
+    </ul>
     <script>
-        // 오류 아님
-      const name= [[${name}]]
+      // 오류 아님
+      const name = "[[${name}]]";
     </script>
   </body>
 </html>

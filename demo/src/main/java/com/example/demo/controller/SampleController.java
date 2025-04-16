@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,19 @@ public class SampleController {
             list.add(sampleDTO);
         }
         model.addAttribute("list", list);
+        model.addAttribute("title", "This is a text");
+        model.addAttribute("now", new Date());
+        model.addAttribute("price", 123000);
+        model.addAttribute("option", Arrays.asList("AAA", "BBB", "CCC"));
+    }
+
+    @GetMapping("/ex1")
+    public void getEx(String param1, int param2) {
+        log.info("파라미터 확인 p1:{} p2:{}", param1, param2);
+    }
+
+    @GetMapping("/content")
+    public void getContent() {
     }
 
 }
