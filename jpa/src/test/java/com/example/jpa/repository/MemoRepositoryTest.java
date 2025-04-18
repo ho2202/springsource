@@ -31,7 +31,7 @@ public class MemoRepositoryTest {
     public void updateTest() {
         // Memo memo = Memo.builder().mno(1L).memoText("memoText update").build();
         Memo memo = memoRepository.findById(2L).get();
-        memo.setMemoText("memoText update2");
+        memo.changeMemoText("memoText update2");
         memoRepository.save(memo);
     }
 

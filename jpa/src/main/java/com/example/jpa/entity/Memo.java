@@ -1,6 +1,6 @@
 package com.example.jpa.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,11 +16,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @EntityListeners(value = AuditingEntityListener.class)
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -35,8 +33,12 @@ public class Memo {
     private String memoText; // 200
 
     @CreatedDate
-    private Date createdDate; // 생성날짜
+    private LocalDateTime createdDate; // 생성날짜
 
     @LastModifiedDate
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
+
+    public void changeMemoText(String memoText) {
+        this.memoText = memoText;
+    }
 }
