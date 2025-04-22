@@ -3,6 +3,7 @@ package com.example.jpa.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.jpa.dto.MemoDTO;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class MemoService {
     // Repository 호출 후 결과 받기
     private final MemoRepository memoRepository;
+    private final ModelMapper modelMapper;
 
     public List<MemoDTO> getList() {
         List<Memo> list = memoRepository.findAll();
@@ -30,13 +32,17 @@ public class MemoService {
         // .build();
         // dtoList.add(dto);
         // }
-        List<MemoDTO> dtoList = list.stream().map(memo -> entityToDto(memo)).collect(Collectors.toList());
+        // List<MemoDTO> dtoList = list.stream().map(memo ->
+        // entityToDto(memo)).collect(Collectors.toList());
+        List<MemoDTO> dtoList = list.stream().map(memo -> modelMapper.map(memo, MemoDTO.class))
+                .collect(Collectors.toList());
         return dtoList;
     }
 
     public MemoDTO getRow(Long mno) {
         Memo memo = memoRepository.findById(mno).orElseThrow(EntityNotFoundException::new);
-        MemoDTO dto = entityToDto(memo);
+        // MemoDTO dto = entityToDto(memo);
+        MemoDTO dto = modelMapper.map(memo, MemoDTO.class);
         return dto;
 
     }

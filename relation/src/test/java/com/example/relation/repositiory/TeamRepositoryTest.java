@@ -66,7 +66,6 @@ public class TeamRepositoryTest {
         teamRepository.findById(2L).get();
 
         teamRepository.deleteById(1L);
-
     }
 
     // @Transactional
@@ -75,5 +74,20 @@ public class TeamRepositoryTest {
         Team team = teamRepository.findById(2L).get();
         System.out.println(team);
         team.getMembers().forEach(member -> System.out.println(member));
+    }
+
+    // cascade : 영속성 전이
+    @Test
+    public void insertTest3() {
+        Team team = Team.builder().teamName("team3").build();
+        TeamMember teamMember = TeamMember.builder().userName("홍길동").team(team).build();
+        // 팀에 멤버 추가 후 저장
+        team.getMembers().add(teamMember);
+        teamRepository.save(team);
+    }
+
+    @Test
+    public void deleteTest2() {
+        teamRepository.deleteById(3L);
     }
 }
