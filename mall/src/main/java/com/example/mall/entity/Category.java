@@ -1,12 +1,10 @@
-package com.example.mart.entity;
+package com.example.mall.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,18 +17,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class CategoryItem extends BaseEntity {
+public class Category extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_item_id")
+    @Column(name = "category_id")
     private Long id;
 
-    @Column(name = "category_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Category category;
-
-    @Column(name = "item_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Item item;
+    private String name;
 
 }
