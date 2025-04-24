@@ -3,7 +3,6 @@ package com.example.todo.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +20,27 @@ public class TodoService {
 
     private final TodoRepository todoRepository;
     private final ModelMapper modelMapper;
+
+    public Long create(TodoDTO dto) {
+        TodoDTO todo = modelMapper.map(dto, TodoDTO.class);
+        return todoRepository.save(todo).getId();
+    }
+
+    public void remove(Long id) {
+        todoRepository.deleteById(id);
+    }
+
+    public TodoDTO read(Long id) {
+        Todo todo = todoRepository.findById(id).get();
+
+        return modelMapper.map(todo, TodoDTO.class);
+    }
+
+    public Long changeCompleted(TodoDTO dto) {
+        Todo todo = todoRepository.findById(dto.getId()).get();
+        todo.setCompleted(dto.isCompleted());
+        return todoRepository.save(todo).getId();
+    }
 
     public List<TodoDTO> list(boolean completed) {
         List<Todo> list = todoRepository.findByCompleted(completed);

@@ -29,7 +29,7 @@ public class TodoRepositoryTest {
 
     @Test
     public void testDelete() {
-        todoRepository.deleteById(1L);
+        todoRepository.deleteById(11L);
     }
 
     @Test
