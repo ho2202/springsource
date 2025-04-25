@@ -4,6 +4,30 @@
     <title>도서 목록</title>
   </th:block>
   <th:block layout:fragment="css"></th:block>
-  <div layout:fragment="content"></div>
-  <th:block layout:fragment="script"></th:block>
+  <div layout:fragment="content">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Title</th>
+          <th scope="col">Author</th>
+          <th scope="col">Created Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="book : ${books}">
+          <td scope="row" th:text="${book.code}"></td>
+          <td><a th:href="@{/book/read(code=${book.code})}" th:text="${book.title}"></a></td>
+          <td th:text="${book.author}"></td>
+          <td th:text="${#temporals.format(book.createdDate, 'yyyy-MM-dd')}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <th:block layout:fragment="script">
+    <script>
+      const code = "[[${code}]]";
+      if (code) alert("저장 성공");
+    </script>
+  </th:block>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{layouts/layout}">
   <th:block layout:fragment="title">
-    <title>도서 상세조회</title>
+    <title>도서 정보 수정</title>
   </th:block>
   <th:block layout:fragment="css">
     <style>
@@ -11,8 +11,8 @@
     </style>
   </th:block>
   <div layout:fragment="content">
-    <h3>Book Read</h3>
-    <form>
+    <h3>Book Modify</h3>
+    <form method="post">
       <div class="mb-3">
         <label for="code" class="form-label">Code</label>
         <input type="text" class="form-control" id="code" name="code" th:value="${book.code}" readonly />
@@ -27,11 +27,17 @@
       </div>
       <div class="mb-3">
         <label for="price" class="form-label">Price</label>
-        <input type="text" class="form-control" id="price" name="price" th:value="${book.price}" readonly />
+        <input type="text" class="form-control" id="price" name="price" th:value="${book.price}" />
       </div>
       <a class="btn btn-success" th:href="@{/book/list}">목록</a>
-      <a class="btn btn-primary" th:href="@{/book/modify(code=${book.code})}">수정</a>
+      <button type="submit" class="btn btn-primary">확인</button>
+      <button type="button" class="btn btn-danger">삭제</button>
+    </form>
+    <form th:action="@{/book/remove}" method="post" id="actionForm">
+      <input type="hidden" name="code" th:value="${book.code}" />
     </form>
   </div>
-  <th:block layout:fragment="script"></th:block>
+  <th:block layout:fragment="script">
+    <script th:src="@{/js/modify.js}"></script>
+  </th:block>
 </html>

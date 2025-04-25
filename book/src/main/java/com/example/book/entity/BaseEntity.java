@@ -3,6 +3,7 @@ package com.example.book.entity;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -17,6 +18,6 @@ public abstract class BaseEntity {
     @Column(updatable = false)
     private LocalDateTime createdDate;
 
-    @CreatedDate
+    @LastModifiedDate
     private LocalDateTime updatedDate;
 }
