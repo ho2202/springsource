@@ -5,13 +5,39 @@ import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.example.jpa.entity.Board;
+import com.example.jpa.entity.QBoard;
 
 @SpringBootTest
 public class BoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepository;
+
+    @Test
+    public void queryDslTest() {
+        QBoard board = QBoard.board;
+        // System.out.println(boardRepository.findAll(board.title.eq("글3")));
+        // System.out.println(boardRepository.findAll(board.title.startsWith("글3")));
+        // System.out.println(boardRepository.findAll(board.title.endsWith("1")));
+        // where b.title like '%title%'
+        // System.out.println(boardRepository.findAll(board.title.contains("10")));
+
+        Iterable<Board> boards = boardRepository.findAll(board.title.contains("글3").and(board.bno.gt(3L)),
+                Sort.by("bno").descending());
+        System.out.println(boards);
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+        Page<Board> result = boardRepository.findAll(board.bno.gt(0L), pageable);
+        System.out.println("page size " + result.getSize());
+        System.out.println("page Total page " + result.getTotalPages());
+        System.out.println("page Total elements " + result.getTotalElements());
+        System.out.println("page Content " + result.getContent());
+    }
 
     @Test
     public void queryMethodTest() {

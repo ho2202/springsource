@@ -1,8 +1,10 @@
 package com.example.mart.repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.IntStream;
 
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -168,5 +170,44 @@ public class MartRepositoryTest {
     @Test
     public void testDelete() {
         orderRepository.deleteById(null);
+    }
+
+    @Test
+    public void memberTest() {
+        List<Member> list = orderRepository.members();
+        System.out.println(list);
+    }
+
+    @Test
+    public void itemTest() {
+        List<Item> list = orderRepository.items();
+        System.out.println(list);
+    }
+
+    @Test
+    public void joinTest() {
+        List<Object[]> list = orderRepository.joinTest();
+        for (Object[] objects : list) {
+            // System.out.println(Arrays.toString(objects));
+            Order order = (Order) objects[0];
+            Member member = (Member) objects[1];
+            OrderItem orderItem = (OrderItem) objects[2];
+            System.out.println(order);
+            System.out.println(member);
+            System.out.println(orderItem);
+        }
+    }
+
+    @Test
+    public void subQueryTest() {
+        List<Object[]> list = orderRepository.subQueryTest();
+        for (Object[] objects : list) {
+            Order order = (Order) objects[0];
+            Member member = (Member) objects[1];
+            OrderItem orderItem = (OrderItem) objects[2];
+            System.out.println(order);
+            System.out.println(member);
+            System.out.println(orderItem);
+        }
     }
 }

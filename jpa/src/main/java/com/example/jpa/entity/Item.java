@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,6 +29,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @Builder
 @EntityListeners(value = AuditingEntityListener.class)
+@Table(name = "JPA_ITEM")
 public class Item {
 
     @Id
@@ -36,7 +38,7 @@ public class Item {
 
     private String itemNm;
     private int price;
-    private int stockNumber;
+    private int stockQueantity;
     private String itemDetail;
 
     @Enumerated(EnumType.STRING)

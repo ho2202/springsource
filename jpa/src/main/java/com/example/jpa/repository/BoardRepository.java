@@ -2,11 +2,12 @@ package com.example.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import com.example.jpa.entity.Board;
 import java.util.List;
 
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long>, QuerydslPredicateExecutor<Board> {
     // List<Board> findByWriter(String writer);
 
     // List<Board> findByTitle(String title);
