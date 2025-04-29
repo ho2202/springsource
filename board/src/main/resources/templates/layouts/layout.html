@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block layout:fragment="title"></th:block>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <th:block layout:fragment="css"></th:block>
+  </head>
+  <body>
+    <div class="d-flex" id="wrapper">
+      <!-- Sidebar-->
+      <div th:replace="~{fragments/sidebar::sidebar}"></div>
+      <!-- Page content wrapper-->
+      <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <div th:replace="~{fragments/navbar::navbar}"></div>
+        <!-- Page content-->
+        <div class="container-fluid">
+          <div layout:fragment="content" class="mt-4"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script th:src="@{js/scripts.js}"></script>
+    <th:block layout:fragment="script"></th:block>
+  </body>
+</html>

@@ -8,21 +8,52 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">No</th>
+          <th scope="col">Code</th>
           <th scope="col">Title</th>
           <th scope="col">Author</th>
           <th scope="col">Created Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr th:each="book : ${books}">
+        <tr th:each="book : ${result.dtoList}">
           <td scope="row" th:text="${book.code}"></td>
-          <td><a th:href="@{/book/read(code=${book.code})}" th:text="${book.title}"></a></td>
+          <td>
+            <a
+              th:href="@{/book/read(code=${book.code}, page=${pageRequestDTO.page}, size=${pageRequestDTO.size}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}"
+              th:text="${book.title}"
+            ></a>
+          </td>
           <td th:text="${book.author}"></td>
           <td th:text="${#temporals.format(book.createdDate, 'yyyy-MM-dd')}"></td>
         </tr>
       </tbody>
     </table>
+    <nav aria-label="...">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" th:if="${result.prev}">
+          <!-- 페이지 이동 버튼에 검색 내용 유지 -->
+          <a
+            class="page-link"
+            th:href="@{/list(page=${result.prevPage}, size=${result.pageRequestDTO.size}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}"
+            >Previous</a
+          >
+        </li>
+        <li th:class="'page-item ' + ${result.current == page ? 'active': ''}" th:each="page : ${result.pageNumList}">
+          <a
+            class="page-link"
+            th:href="@{list(page=${page}, size=${result.pageRequestDTO.size}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}"
+            >[[${page}]]</a
+          >
+        </li>
+        <li class="page-item" th:if="${result.next}">
+          <a
+            class="page-link"
+            th:href="@{/list(page=${result.nextPage}, size=${result.pageRequestDTO.size}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}"
+            >Next</a
+          >
+        </li>
+      </ul>
+    </nav>
   </div>
   <th:block layout:fragment="script">
     <script>

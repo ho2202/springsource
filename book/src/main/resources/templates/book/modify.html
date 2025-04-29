@@ -35,6 +35,10 @@
     </form>
     <form th:action="@{/book/remove}" method="post" id="actionForm">
       <input type="hidden" name="code" th:value="${book.code}" />
+      <input type="hidden" name="page" th:value="${pageRequestDTO.page}" />
+      <input type="hidden" name="size" th:value="${pageRequestDTO.size}" />
+      <input type="hidden" name="type" th:value="${pageRequestDTO.type}" />
+      <input type="hidden" name="keyword" th:value="${pageRequestDTO.keyword}" />
     </form>
   </div>
   <th:block layout:fragment="script">
