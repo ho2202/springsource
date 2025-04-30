@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{layouts/layout}">
+  <th:block layout:fragment="title"></th:block>
+  <th:block layout:fragment="css"></th:block>
+
+  <div th:replace="~{fragments/sidebar::sidebar}"></div>
+  <div th:replace="~{fragments/navbar::navbar}"></div>
+  <div layout:fragment="content">
+    <form>
+      <div class="mb-3">
+        <label for="bno" class="form-label">번호</label>
+        <input type="bno" class="form-control" id="bno" name="bno" th:value="${dto.bno}" />
+      </div>
+      <div class="mb-3">
+        <label for="title" class="form-label">제목</label>
+        <input type="text" class="form-control" id="title" name="title" th:value="${dto.title}" />
+      </div>
+      <div class="mb-3">
+        <label for="content" class="form-label">내용</label>
+        <textarea class="form-control" rows="10" id="content" name="content">[[${dto.content}]]</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">작성자</label>
+        <input type="text" class="form-control" id="name" name="name" th:value="${dto.name}" />
+      </div>
+
+      <a class="btn btn-primary">수정</a>
+      <a class="btn btn-success">목록</a>
+    </form>
+    <div class="row mt-3">
+      <h5 class="mt-3">댓글 개수: <span th:text="${dto.replyCount}"></span></h5>
+      <div class="replyList boarder px-2"></div>
+    </div>
+  </div>
+  <th:block layout:fragment="script"></th:block>
+</html>

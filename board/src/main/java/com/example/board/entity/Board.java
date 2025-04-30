@@ -1,5 +1,8 @@
 package com.example.board.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +24,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = "member")
+@ToString(exclude = { "member", "replies" })
 @Table(name = "Boardtbl")
 public class Board extends BaseEntity {
     @Id
@@ -36,4 +40,9 @@ public class Board extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    // 게시글의 댓글 조회
+    @Builder.Default
+    @OneToMany(mappedBy = "board") // 관계 주인은 reply, board는 필요할 때만
+    private List<Reply> replies = new ArrayList<>();
 }

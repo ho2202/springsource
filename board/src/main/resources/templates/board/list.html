@@ -1,10 +1,61 @@
 <!DOCTYPE html>
 <html lang="ko" layout:decorate="~{layouts/layout}">
-  <th:block layout:fragment="title"></th:block>
+  <th:block layout:fragment="title">
+    <h1>Board List</h1>
+  </th:block>
   <th:block layout:fragment="css"></th:block>
 
   <div th:replace="~{fragments/sidebar::sidebar}"></div>
   <div th:replace="~{fragments/navbar::navbar}"></div>
-  <div layout:fragment="content"></div>
+  <div layout:fragment="content">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">번호</th>
+          <th scope="col">제목</th>
+          <th scope="col">작성일</th>
+          <th scope="col">이름</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr th:each="result : ${result.dtoList}">
+          <th scope="row" th:text="${result.bno}"></th>
+          <td>
+            <a th:href="@{read(bno=${result.bno})}">[[${result.title}]]</a> --------
+            [[${result.replyCount!=null?result.replyCount:0}]]
+          </td>
+          <td th:text="${#temporals.format(result.createdDate, 'yyyy-MM-dd hh')}">date</td>
+          <td th:text="${result.name}">name</td>
+        </tr>
+      </tbody>
+    </table>
+    <nav aria-label="...">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" th:if="${result.prev}">
+          <!-- 페이지 이동 버튼에 검색 내용 유지 -->
+          <a
+            class="page-link"
+            th:href="@{/list(page=${result.prevPage}, size=${result.pageRequestDTO.size}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}"
+            >Previous</a
+          >
+        </li>
+        <li th:class="'page-item ' + ${result.current == page ? 'active': ''}" th:each="page : ${result.pageNumList}">
+          <a
+            class="page-link"
+            th:href="@{list(page=${page}, size=${result.pageRequestDTO.size}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}"
+            >[[${page}]]</a
+          >
+        </li>
+        <li class="page-item" th:if="${result.next}">
+          <a
+            class="page-link"
+            th:href="@{/list(page=${result.nextPage}, size=${result.pageRequestDTO.size}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}"
+            >Next</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
   <th:block layout:fragment="script"></th:block>
 </html>

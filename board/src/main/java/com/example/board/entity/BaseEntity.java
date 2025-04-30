@@ -9,9 +9,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Getter;
 
 @MappedSuperclass // 자식 클래스에 엔티티의 매핑 정보 상속
 @EntityListeners(value = AuditingEntityListener.class)
+@Getter
 public abstract class BaseEntity {
 
     @CreatedDate
