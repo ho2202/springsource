@@ -45,4 +45,12 @@ public class Board extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "board") // 관계 주인은 reply, board는 필요할 때만
     private List<Reply> replies = new ArrayList<>();
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
 }

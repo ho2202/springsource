@@ -13,6 +13,7 @@ import com.example.board.entity.Board;
 import com.example.board.entity.QBoard;
 import com.example.board.entity.QMember;
 import com.example.board.entity.QReply;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -30,7 +31,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
     }
 
     @Override
-    public Page<Object[]> list(Pageable pageable) {
+    public Page<Object[]> list(String type, String keyword, Pageable pageable) {
         log.info("SearchBoard");
         QMember member = QMember.member;
         QBoard board = QBoard.board;
@@ -50,7 +51,28 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                 .groupBy(reply.board);
 
         JPQLQuery<Tuple> tuple = query.select(board, member, replyCount);
+        log.info("=======");
 
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(board.bno.gt(0L));
+        if (type != null || type.trim().length() > 0) {
+
+            BooleanBuilder builder = new BooleanBuilder();
+
+            if (type.contains("t")) {
+                builder.or(board.title.contains(keyword));
+            }
+            if (type.contains("c")) {
+                builder.or(board.content.contains(keyword));
+            }
+            if (type.contains("w")) {
+                builder.or(board.member.name.contains(keyword));
+            }
+            booleanBuilder.and(builder);
+        }
+        tuple.where(booleanBuilder);
+
+        // Sort
         Sort sort = pageable.getSort();
         // sort 기준이 여럿일 수 있어서
         sort.stream().forEach(order -> {

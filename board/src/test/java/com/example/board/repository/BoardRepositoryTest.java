@@ -90,10 +90,10 @@ public class BoardRepositoryTest {
 
     @Test
     public void listQuerydslTest() {
-        // PageRequestDTO pageRequestDTO =
-        // PageRequestDTO.builder().page(0).size(10).build();
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(0).size(10)
+                .type("tc").keyword("title").build();
         Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
-        Page<Object[]> result = boardRepository.list(pageable);
+        Page<Object[]> result = boardRepository.list(pageRequestDTO.getType(), pageRequestDTO.getKeyword(), pageable);
 
         for (Object[] objects : result) {
             System.out.println(Arrays.toString(objects));
