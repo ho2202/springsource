@@ -55,7 +55,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         booleanBuilder.and(board.bno.gt(0L));
-        if (type != null || type.trim().length() > 0) {
+        if (type != null) {
 
             BooleanBuilder builder = new BooleanBuilder();
 

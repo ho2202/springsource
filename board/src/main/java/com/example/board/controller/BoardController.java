@@ -49,7 +49,7 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public void getList(Model model, PageRequestDTO pageRequestDTO) {
+    public void getList(Model model, PageRequestDTO pageRequestDTO, RedirectAttributes rttr) {
         log.info("List 요청");
         PageResultDTO<BoardDTO> list = boardService.getList(pageRequestDTO);
         model.addAttribute("result", list);
