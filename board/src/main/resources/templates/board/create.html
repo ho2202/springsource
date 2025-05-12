@@ -7,25 +7,28 @@
   <div th:replace="~{fragments/navbar::navbar}"></div>
   <div layout:fragment="content">
     <h1>Board Create</h1>
-    <form th:object="${dto}" method="post" novalidate>
+    <form th:action="@{/board/create}" method="post" novalidate>
       <div class="mb-3">
         <label for="title" class="form-label">제목</label>
         <input type="text" class="form-control" id="title" name="title" th:value="${dto.title}" />
-        <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></div>
       </div>
       <div class="mb-3">
         <label for="content" class="form-label">내용</label>
         <textarea class="form-control" rows="10" id="content" name="content" th:value="${dto.content}"></textarea>
-        <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-danger"></div>
       </div>
       <div class="mb-3">
-        <label for="email" class="form-label">이메일</label>
-        <input type="email" class="form-control" id="email" name="email" th:value="${dto.email}" />
-        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
+        <input type="hidden" class="form-control" id="email" name="email" th:value="#{#authenticated.name}" />
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">작성자</label>
-        <input type="text" class="form-control" id="name" name="name" th:value="${dto.name}" />
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          th:value="#{#authenticated.principal.name}"
+          readonly
+        />
       </div>
 
       <button type="submit" class="btn btn-primary">저장</button>

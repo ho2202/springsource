@@ -11,10 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.board.dto.PageRequestDTO;
 import com.example.board.entity.Board;
 import com.example.board.entity.Member;
+import com.example.board.entity.MemberRole;
 import com.example.board.entity.Reply;
 
 import jakarta.transaction.Transactional;
@@ -29,6 +31,8 @@ public class BoardRepositoryTest {
     private MemberRepository memberRepository;
     @Autowired
     private ReplyRepository replyRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void listReplyTest() {
@@ -43,8 +47,16 @@ public class BoardRepositoryTest {
             Member member = Member.builder()
                     .email("user" + i + "@gmail.com")
                     .name("user" + i)
-                    .password("123")
+                    .password(passwordEncoder.encode("1111"))
+                    .fromSocial(false)
                     .build();
+            member.addMemberRole(MemberRole.USER);
+            if (i > 5) {
+                member.addMemberRole(MemberRole.MANAGER);
+            }
+            if (i > 7) {
+                member.addMemberRole(MemberRole.ADMIN);
+            }
             memberRepository.save(member);
         });
     }
@@ -68,13 +80,15 @@ public class BoardRepositoryTest {
 
     @Test
     public void insertReplyTest() {
-        IntStream.rangeClosed(1, 40).forEach(i -> {
+        IntStream.rangeClosed(1, 50).forEach(i -> {
             long num = (int) (Math.random() * 100) + 1;
-
+            Board board = Board.builder().bno(num).build();
+            long id = (int) (Math.random() * 10) + 1;
+            Member member = Member.builder().email("user" + id + "@gmail.com").build();
             Reply reply = Reply.builder()
-                    .board(boardRepository.findById(num).get())
-                    .text("Reply~..." + i)
-                    .replyer("guest" + i)
+                    .board(board) // boardRepository.findById(num).get())
+                    .text("Reply..." + i)
+                    .replyer(member)
                     .build();
             replyRepository.save(reply);
         });

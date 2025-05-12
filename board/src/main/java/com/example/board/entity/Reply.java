@@ -16,7 +16,7 @@ import lombok.ToString;
 
 @Entity
 @Getter
-@ToString(exclude = "board")
+@ToString(exclude = { "board", "replyer" })
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -27,8 +27,9 @@ public class Reply extends BaseEntity {
 
     @Column(nullable = false)
     private String text;
-    @Column(nullable = false)
-    private String replyer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member replyer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")

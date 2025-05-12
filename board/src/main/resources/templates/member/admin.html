@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{layouts/layout}">
+  <th:block layout:fragment="title"></th:block>
+  <th:block layout:fragment="css"></th:block>
+
+  <div th:replace="~{fragments/sidebar::sidebar}"></div>
+  <div th:replace="~{fragments/navbar::navbar}"></div>
+  <div layout:fragment="content">
+    <h1>Admin Page</h1>
+  </div>
+  <th:block layout:fragment="script"></th:block>
+</html>

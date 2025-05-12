@@ -28,6 +28,7 @@
       <a
         th:href="@{modify(bno=${dto.bno},page=${pageRequestDTO.page},size=${pageRequestDTO.size},type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}"
         class="btn btn-primary"
+        th:if="${#authentication.name} == ${dto.email}"
         >수정</a
       >
       <a

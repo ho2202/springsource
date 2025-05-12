@@ -7,6 +7,11 @@
   </head>
   <body>
     <h1>admin</h1>
+    <h3>권한 확인<span sec:authentication="principal.authorities"></span></h3>
+    <h3>유저이름<span sec:authentication="principal.username"></span></h3>
+    <h3 sec:authorrize="isAuthenticated()">인증된 사용자</h3>
+    <h3 sec:authorrize="hasRole('ROLR_ADMIN')">관리자</h3>
+    <h3 sec:authorrize="hasRole('ROLR_USER')">일반 유저</h3>
     <a th:href="@{/member/logout}" class="btn btn-primary">로그아웃</a>
   </body>
 </html>

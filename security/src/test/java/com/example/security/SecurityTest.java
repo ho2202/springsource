@@ -11,8 +11,6 @@ import com.example.security.entity.ClubMember;
 import com.example.security.entity.ClubMemberRole;
 import com.example.security.repository.ClubMemberRepository;
 
-import jakarta.transaction.Transactional;
-
 @SpringBootTest
 public class SecurityTest {
     @Autowired
@@ -34,7 +32,7 @@ public class SecurityTest {
     @Test
     // @Transactional
     public void testRead() {
-        ClubMember cm = cMemberRepository.findByEmailAndFromSocial("1e@mail.com", false);
+        ClubMember cm = cMemberRepository.findByEmailAndFromSocial("e1@mail.com", false);
         System.out.println(cm);
     }
 

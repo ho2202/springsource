@@ -15,20 +15,23 @@
     <div class="container">
       <form th:action="@{/member/login}" method="post">
         <div class="mb-3">
-          <label for="username" class="form-label">Id</label>
-          <input type="text" class="form-control" id="username" aria-describedby="username" name="username" />
+          <label for="id" class="form-label">Id</label>
+          <input type="text" class="form-control" id="id" aria-describedby="username" name="username" />
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" />
+          <input type="password" class="form-control" id="password" name="password" />
         </div>
         <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember-me" />
+          <label class="form-check-label" for="exampleCheck1">Remember-me</label>
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
       </form>
       <div th:if="${param.error}" class="text-danger">아이디와 비번을 확인해주세요</div>
+      <div>
+        <a href="/oauth2/authorization/google">구글 로그인</a>
+      </div>
     </div>
   </body>
 </html>

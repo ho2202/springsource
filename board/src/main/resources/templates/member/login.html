@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{layouts/layout}">
+  <th:block layout:fragment="title"></th:block>
+  <th:block layout:fragment="css"></th:block>
+
+  <div th:replace="~{fragments/sidebar::sidebar}"></div>
+  <div th:replace="~{fragments/navbar::navbar}"></div>
+  <div layout:fragment="content">
+    <h1>Login</h1>
+    <form method="post" th:action="@{/member/login}">
+      <div class="mb-3">
+        <label for="email" class="form-label">이메일</label>
+        <input type="email" class="form-control" id="email" name="username" />
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">비밀번호</label>
+        <input type="password" class="form-control" id="password" name="password" />
+      </div>
+      <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+  </div>
+  <th:block layout:fragment="script"></th:block>
+</html>

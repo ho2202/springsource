@@ -1,5 +1,6 @@
 package com.example.security.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 public class HomeController {
+    @PreAuthorize("permitAll()")
     @GetMapping("/")
     public String getHome() {
         log.info("home 요청");

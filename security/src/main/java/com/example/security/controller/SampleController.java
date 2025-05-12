@@ -1,5 +1,6 @@
 package com.example.security.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,16 +12,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Log4j2
 @RequestMapping("/sample")
 public class SampleController {
+    @PreAuthorize("permitAll()")
     @GetMapping("/guest")
     public void getGuest() {
         log.info("guest 요청");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER','USER')")
     @GetMapping("/member")
     public void getMember() {
         log.info("member 요청");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/admin")
     public void getAdmin() {
         log.info("admin 요청");
