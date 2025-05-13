@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import com.example.board.dto.PageRequestDTO;
 import com.example.board.entity.Board;
 import com.example.board.entity.QBoard;
 import com.example.board.entity.QMember;
@@ -33,32 +34,33 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
     @Override
     public Page<Object[]> list(String type, String keyword, Pageable pageable) {
         log.info("SearchBoard");
-        QMember member = QMember.member;
+
         QBoard board = QBoard.board;
+        QMember member = QMember.member;
         QReply reply = QReply.reply;
 
-        // FROM BOARDTBL b JOIN BOARD_MEMBER bm ON b.MEMBER_ID = bm.EMAIL;
         JPQLQuery<Board> query = from(board);
         query.leftJoin(member).on(board.member.eq(member));
 
-        // ( SELECT count(r.BOARD_ID) FROM REPLY r WHERE r.BOARD_ID = b.bno GROUP BY
-        // r.BOARD_ID )
+        // 댓글개수
+        // r.BOARD_ID = b.BNO
         JPQLQuery<Long> replyCount = JPAExpressions.select(reply.rno.count())
                 .from(reply)
-                // WHERE r.BOARD_ID = b.bno
-                .where(reply.board.eq(board))
-                // GROUP BY r.BOARD_ID) AS reply_cnt, b.CREATED_DATE, bm.NAME
-                .groupBy(reply.board);
+                .where(reply.board.eq(board)).groupBy(reply.board);
 
         JPQLQuery<Tuple> tuple = query.select(board, member, replyCount);
-        log.info("=======");
 
+        log.info("===============");
+        log.info(query);
+        log.info("===============");
+
+        // bno > 0
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         booleanBuilder.and(board.bno.gt(0L));
-        if (type != null) {
 
+        if (type != null) { // type이 null인지 검사
+            // 검색
             BooleanBuilder builder = new BooleanBuilder();
-
             if (type.contains("t")) {
                 builder.or(board.title.contains(keyword));
             }
@@ -70,25 +72,33 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
             }
             booleanBuilder.and(builder);
         }
+
         tuple.where(booleanBuilder);
 
-        // Sort
+        // Sort 생성
+        // bno를 기준으로 sort PageRequest.of(0, 10, Sort.by("bno").descending());
         Sort sort = pageable.getSort();
-        // sort 기준이 여럿일 수 있어서
+        // sort 기준이 여러개 일 수 있어서 forEach 사용
         sort.stream().forEach(order -> {
             Order direction = order.isAscending() ? Order.ASC : Order.DESC;
 
             String prop = order.getProperty();
-            PathBuilder<Board> orderBuilder = new PathBuilder<>(Board.class, "board");
-            tuple.orderBy(new OrderSpecifier(direction, orderBuilder.get(prop)));
+            PathBuilder<Board> ordeBuilder = new PathBuilder<>(Board.class, "board");
+            tuple.orderBy(new OrderSpecifier(direction, ordeBuilder.get(prop)));
         });
-        // 전체 리스트 조회 + sort 적용
-        // 페이지 처리
+
+        // ----------------------------- 여기까지가 전체 리스트 + Sort 적용된 상황
+
+        // 페이지 처리 구간
         tuple.offset(pageable.getOffset());
+        // pagesize에 10 들어있음
         tuple.limit(pageable.getPageSize());
 
         List<Tuple> result = tuple.fetch();
+
+        // 전체 개수
         long count = tuple.fetchCount();
+
         List<Object[]> list = result.stream().map(t -> t.toArray()).collect(Collectors.toList());
 
         return new PageImpl<>(list, pageable, count);
@@ -96,21 +106,22 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 
     @Override
     public Object[] getBoardByBno(Long bno) {
-        log.info("ReadBoard");
-        QMember member = QMember.member;
         QBoard board = QBoard.board;
+        QMember member = QMember.member;
         QReply reply = QReply.reply;
 
         JPQLQuery<Board> query = from(board);
         query.leftJoin(member).on(board.member.eq(member));
         query.where(board.bno.eq(bno));
 
+        // 댓글개수
+        // r.BOARD_ID = b.BNO
         JPQLQuery<Long> replyCount = JPAExpressions.select(reply.rno.count())
                 .from(reply)
-                .where(reply.board.eq(board))
-                .groupBy(reply.board);
+                .where(reply.board.eq(board)).groupBy(reply.board);
 
         JPQLQuery<Tuple> tuple = query.select(board, member, replyCount);
+
         Tuple row = tuple.fetchFirst();
         return row.toArray();
     }

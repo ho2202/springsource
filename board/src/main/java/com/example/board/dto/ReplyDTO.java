@@ -7,11 +7,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ReplyDTO {
+
     private Long rno;
 
     private String text;
@@ -19,6 +20,7 @@ public class ReplyDTO {
     private String replyerEmail;
     private String replyerName;
 
+    // 게시글번호 (부모번호)
     private Long bno;
 
     private LocalDateTime createdDate;

@@ -8,27 +8,27 @@ import org.springframework.security.core.userdetails.User;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @ToString
 @Getter
-public class AuthMemberDTO extends User {
+public class MemberDTO {
 
+    @Email
+    @NotBlank(message = "이메일은 필수 요소입니다.")
     private String email;
+    @NotBlank(message = "이름은 필수 요소입니다.")
     private String name;
+    @NotBlank(message = "비밀번호는 필수 요소입니다.")
     private String password;
-    private Boolean fromSocial;
 
-    // username : id 개념으로사용
-    public AuthMemberDTO(String username, String password, Boolean fromSocial,
-            Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
-        this.email = username;
-        this.password = password;
-        this.fromSocial = fromSocial;
-    }
+    private boolean fromSocial;
 
 }
