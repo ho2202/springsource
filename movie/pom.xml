@@ -30,12 +30,11 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-
-	<dependency>
-<groupId>nz.net.ultraq.thymeleaf</groupId>
-<artifactId>thymeleaf-layout-dialect</artifactId>
-<version>3.4.0</version>
-</dependency>
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+			<version>3.4.0</version>
+		</dependency>
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
