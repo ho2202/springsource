@@ -1,5 +1,7 @@
 package com.example.movie.dto;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +23,23 @@ public class MovieImageDTO {
     private String imgName;
     private String path;
 
-    // date
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    public String getThumbnailURL() {
+        String thumbFullPath = "";
+        try {
+            thumbFullPath = URLEncoder.encode(path + "/s" + uuid + "_" + imgName, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return thumbFullPath;
+    }
+
+    public String getImageURL() {
+        String fullPath = "";
+        try {
+            fullPath = URLEncoder.encode(path + "/" + uuid + "_" + imgName, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return fullPath;
+    }
 }
