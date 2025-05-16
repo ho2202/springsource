@@ -26,7 +26,7 @@ public class MovieImageDTO {
     public String getThumbnailURL() {
         String thumbFullPath = "";
         try {
-            thumbFullPath = URLEncoder.encode(path + "/s" + uuid + "_" + imgName, "utf-8");
+            thumbFullPath = URLEncoder.encode(path + "/s_" + uuid + "_" + imgName, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

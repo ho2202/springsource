@@ -2,6 +2,7 @@ package com.example.movie.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,7 +29,6 @@ import net.coobird.thumbnailator.Thumbnailator;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Log4j2
 @Controller
@@ -57,41 +57,64 @@ public class UploadController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             String oriName = uploadFile.getOriginalFilename();
-            String savFolderPath = makeFolder();
+            String saveFolderPath = makeFolder();
             // UUID 고유 식별자 생성
             String uuid = UUID.randomUUID().toString();
-            String saveName = uploadPath + File.separator + savFolderPath + uuid + "_" + oriName;
+            String saveName = uploadPath + File.separator + saveFolderPath + File.separator + uuid + "_" + oriName;
             Path savePath = Paths.get(saveName);
 
             try {
                 uploadFile.transferTo(savePath);
                 // 썸네일 저장
-                String thumbnailSavedName = uploadPath + File.separator + savFolderPath + File.separator + "s_" + uuid
+                String thumbnailSavedName = uploadPath + File.separator + saveFolderPath + File.separator + "s_" + uuid
                         + "_" + oriName;
                 File thumbFile = new File(thumbnailSavedName);
                 Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 100, 100);
-            } catch (IllegalStateException | IOException e) {
-                // TODO Auto-generated catch block
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            uploadResultDTOs.add(new UploadResultDTO(oriName, uuid, savFolderPath));
+            uploadResultDTOs.add(new UploadResultDTO(oriName, uuid, saveFolderPath));
         }
         return new ResponseEntity<>(uploadResultDTOs, HttpStatus.OK);
     }
 
+    @PostMapping("/removeFile")
+    public ResponseEntity<String> postRemove(String fileName) {
+        // TODO: process POST request
+        log.info("파일 삭제 요청 {}", fileName);
+        String oriFileName;
+        try {
+            oriFileName = URLDecoder.decode(fileName, "utf-8");
+
+            File file = new File(uploadPath + File.separator + oriFileName);
+            file.delete();
+
+            File thum = new File(file.getParent(), "s_" + file.getName());
+            thum.delete();
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getFile(String fileName) {
+    public ResponseEntity<byte[]> getFile(String fileName, String size) {
         ResponseEntity<byte[]> result = null;
         try {
             String srcFileName = URLDecoder.decode(fileName, "utf-8");
             File file = new File(uploadPath + File.separator + srcFileName);
 
+            if (size != null && size.equals("1")) {
+                file = new File(file.getParent(), file.getName().substring(2));
+            }
             HttpHeaders headers = new HttpHeaders();
             // "Content-Type"파일 타입 알려주기
             headers.add("Content-Type", Files.probeContentType(file.toPath()));
             result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
         } catch (Exception e) {
             // TODO: handle exception
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return result;

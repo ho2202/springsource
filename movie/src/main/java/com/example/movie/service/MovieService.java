@@ -2,7 +2,9 @@ package com.example.movie.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -33,6 +35,18 @@ public class MovieService {
         private final MovieImageRepository movieImageRepository;
         private final MovieRepository movieRepository;
         private final ReviewRepository reviewRepository;
+
+        @Transactional
+        public Long createMoive(MovieDTO dto) {
+                log.info("영화 삽입 {}", dto);
+                Map<String, Object> resultMap = dtoToEntity(dto);
+                Movie movie = (Movie) resultMap.get("movie");
+                List<MovieImage> movieImgs = (List<MovieImage>) resultMap.get("movieImages");
+
+                movieRepository.save(movie);
+                movieImgs.forEach(movieImg -> movieImageRepository.save(movieImg));
+                return movie.getMno();
+        }
 
         @Transactional
         public void deleteRow(Long mno) {
@@ -95,5 +109,31 @@ public class MovieService {
                 movieDTO.setReviewCnt(count);
 
                 return movieDTO;
+        }
+
+        private Map<String, Object> dtoToEntity(MovieDTO dto) {
+                Map<String, Object> resultMap = new HashMap<>();
+                Movie movie = Movie.builder()
+                                .mno(dto.getMno())
+                                .title(dto.getTitle())
+                                .build();
+
+                resultMap.put("movie", movie);
+
+                List<MovieImageDTO> movieImageDTOs = dto.getMovieImages();
+                if (dto.getMovieImages() != null && dto.getMovieImages().size() > 0) {
+                        List<MovieImage> movieImages = movieImageDTOs.stream().map(image -> {
+                                MovieImage movieImage = MovieImage.builder()
+                                                .uuid(image.getUuid())
+                                                .imgName(image.getImgName())
+                                                .path(image.getPath())
+                                                .movie(movie)
+                                                .build();
+                                return movieImage;
+
+                        }).collect(Collectors.toList());
+                        resultMap.put("movieImages", movieImages);
+                }
+                return resultMap;
         }
 }
