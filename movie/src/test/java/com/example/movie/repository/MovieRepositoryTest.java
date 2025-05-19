@@ -19,6 +19,8 @@ import com.example.movie.entity.Movie;
 import com.example.movie.entity.MovieImage;
 import com.example.movie.entity.Review;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
 public class MovieRepositoryTest {
     @Autowired
@@ -31,6 +33,22 @@ public class MovieRepositoryTest {
     private ReviewRepository reviewRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Test
+    public void testFindByMovie() {
+        System.out.println(reviewRepository.findByMovie(Movie.builder().mno(2L).build()));
+    }
+
+    @Transactional
+    @Test
+    public void testFindByMovie2() {
+        List<Review> list = reviewRepository.findByMovie(Movie.builder().mno(2L).build());
+
+        for (Review review : list) {
+            System.out.println(review);
+            System.out.println(review.getMember().getEmail());
+        }
+    }
 
     @Test
     public void insertMovieTest() {

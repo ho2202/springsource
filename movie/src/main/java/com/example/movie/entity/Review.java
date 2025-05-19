@@ -31,4 +31,12 @@ public class Review extends BaseEntity {
     private Movie movie;
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
+    public void changeText(String text) {
+        this.text = text;
+    }
+
+    public void changeGrade(int grade) {
+        this.grade = grade;
+    }
 }

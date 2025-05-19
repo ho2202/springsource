@@ -23,6 +23,8 @@ public class ReviewDTO {
     private Long mid;
     private String email;
     private String nickname;
+
+    private Long mno;
     // date
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
