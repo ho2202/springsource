@@ -18,9 +18,8 @@ public class AuthMemberDTO extends User {
 
     private MemberDTO memberDTO;
 
-    // username : id 개념으로사용
-    public AuthMemberDTO(String username, String password,
-            Collection<? extends GrantedAuthority> authorities) {
+    // username : id 개념
+    public AuthMemberDTO(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
     }
 
@@ -29,4 +28,5 @@ public class AuthMemberDTO extends User {
                 List.of(new SimpleGrantedAuthority("ROLE_" + memberDTO.getMemberRole())));
         this.memberDTO = memberDTO;
     }
+
 }

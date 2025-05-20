@@ -1,5 +1,7 @@
 package com.example.movie.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +11,12 @@ import com.example.movie.entity.MovieImage;
 import com.example.movie.repository.total.MovieImageReviewRepository;
 
 public interface MovieImageRepository extends JpaRepository<MovieImage, Long>, MovieImageReviewRepository {
-    @Modifying
-    @Query("delete from MovieImage mi where mi.movie = :movie")
+    // movie번호를 기준으로 이미지 제거
+
+    @Modifying // delete, update 시 반드시 작성
+    @Query("DELETE FROM MovieImage mi WHERE mi.movie = :movie")
     void deleteByMovie(Movie movie);
+
+    @Query(value = "select * from movie_image mi where mi.path = to_char(sysdate-1, 'yyyy\\mm\\dd')", nativeQuery = true)
+    List<MovieImage> getOldImages();
 }

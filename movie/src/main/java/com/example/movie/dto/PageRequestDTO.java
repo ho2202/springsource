@@ -6,19 +6,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-// 상속 관계에서 안전하게 사용, 서브 클래스가 상속할 때 부모 필드도 빌더로 생성 가능
-@SuperBuilder
+// @Builder : PageRequestDTO.builder().build()
+// @SuperBuilder : 상속관계에서도 안전하게 사용 / 서브 클래스가 이 클래스를 상속할 때 부모필드도 함께 빌더로 생성 가능
+// @Builder.Default : 빌더로 객체를 생성할 때 필드가 포함 안되는 경우 사용할 기본값 지정
+//                    PageRequestDTO.builder().build() => page=1, size=10
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
+@SuperBuilder
 public class PageRequestDTO {
+
     @Builder.Default
     private int page = 1;
+
     @Builder.Default
     private int size = 10;
 
-    private String type;
-    private String keyword;
-
+    // 검색
+    @Builder.Default
+    private String type = "";
+    @Builder.Default
+    private String keyword = "";
 }

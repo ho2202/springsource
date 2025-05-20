@@ -11,9 +11,9 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 
-@MappedSuperclass // 자식 클래스에 엔티티의 매핑 정보 상속
-@EntityListeners(value = AuditingEntityListener.class)
 @Getter
+@MappedSuperclass // 테이블과 매핑되지 않고 자식 클래스에 엔티티의 매핑 정보 상속
+@EntityListeners(value = AuditingEntityListener.class)
 public abstract class BaseEntity {
 
     @CreatedDate

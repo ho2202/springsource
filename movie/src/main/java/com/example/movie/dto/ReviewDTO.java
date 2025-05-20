@@ -10,22 +10,24 @@ import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-@Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Getter
+@Setter
 public class ReviewDTO {
+
     private Long rno;
     private int grade;
     private String text;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
+
     // member
     private Long mid;
     private String email;
     private String nickname;
 
+    // movie
     private Long mno;
-    // date
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
 }

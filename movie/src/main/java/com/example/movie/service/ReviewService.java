@@ -14,30 +14,38 @@ import com.example.movie.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-@Service
-@Log4j2
 @RequiredArgsConstructor
+@Log4j2
+@Service
 public class ReviewService {
+
     private final ReviewRepository reviewRepository;
 
-    public Long insertReview(ReviewDTO reviewDTO) {
+    public Long insertReply(ReviewDTO reviewDTO) {
+
         Review review = dtoToEntity(reviewDTO);
+
         return reviewRepository.save(review).getRno();
     }
 
-    public ReviewDTO getReview(Long rno) {
+    public ReviewDTO getReply(Long rno) {
         Review review = reviewRepository.findById(rno).get();
         return entityToDto(review);
     }
 
-    public ReviewDTO updateReview(ReviewDTO reviewDTO) {
+    public ReviewDTO updateReply(ReviewDTO reviewDTO) {
+        // dto => entity
         Review review = reviewRepository.findById(reviewDTO.getRno()).orElseThrow();
 
+        // 수정
         review.changeGrade(reviewDTO.getGrade());
         review.changeText(reviewDTO.getText());
         review = reviewRepository.save(review);
-
         return entityToDto(review);
+    }
+
+    public void removeReply(Long rno) {
+        reviewRepository.deleteById(rno);
     }
 
     public List<ReviewDTO> getReplies(Long mno) {
@@ -48,33 +56,33 @@ public class ReviewService {
         return list;
     }
 
-    public void removeReplies(Long rno) {
-        reviewRepository.deleteById(rno);
-    }
-
-    private Review dtoToEntity(ReviewDTO dto) {
+    private Review dtoToEntity(ReviewDTO reviewDTO) {
         Review review = Review.builder()
-                .rno(dto.getRno())
-                .grade(dto.getGrade())
-                .text(dto.getText())
-                .member(Member.builder().mid(dto.getMid()).build())
-                .movie(Movie.builder().mno(dto.getMno()).build())
+                .rno(reviewDTO.getRno())
+                .grade(reviewDTO.getGrade())
+                .text(reviewDTO.getText())
+                // 멤버 정보
+                .member(Member.builder().mid(reviewDTO.getMid()).build())
+                // 영화정보
+                .movie(Movie.builder().mno(reviewDTO.getMno()).build())
                 .build();
         return review;
     }
 
     private ReviewDTO entityToDto(Review review) {
-        ReviewDTO dto = ReviewDTO.builder()
+        // Review => ReviewDTO
+        ReviewDTO reviewDTO = ReviewDTO.builder()
                 .rno(review.getRno())
+                .grade(review.getGrade())
                 .text(review.getText())
-                .grade(0)
-                .updatedDate(review.getUpdatedDate())
                 .createdDate(review.getCreatedDate())
-
+                .updatedDate(review.getUpdatedDate())
+                // 멤버 정보
                 .mid(review.getMember().getMid())
                 .email(review.getMember().getEmail())
                 .nickname(review.getMember().getNickname())
                 .build();
-        return dto;
+
+        return reviewDTO;
     }
 }

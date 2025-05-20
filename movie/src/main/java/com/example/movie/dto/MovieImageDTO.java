@@ -12,11 +12,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-@Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Getter
+@Setter
 public class MovieImageDTO {
     private Long inum;
     private String uuid;

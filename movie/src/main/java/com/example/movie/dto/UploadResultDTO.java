@@ -4,18 +4,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
 @Setter
+@Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class UploadResultDTO {
     private String fileName;
     private String uuid;
@@ -24,10 +22,11 @@ public class UploadResultDTO {
     public String getImageURL() {
         String fullPath = "";
         try {
-            fullPath = URLEncoder.encode(folderPath + "" + uuid + "_" + fileName, "utf-8");
+            fullPath = URLEncoder.encode(folderPath + "/" + uuid + "_" + fileName, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
         return fullPath;
     }
 
@@ -38,6 +37,7 @@ public class UploadResultDTO {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
         return fullPath;
     }
 }

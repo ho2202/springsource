@@ -11,21 +11,28 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class MovieDTO {
     private Long mno;
     private String title;
+
     @Builder.Default
     private List<MovieImageDTO> movieImages = new ArrayList<>();
 
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
+    // 평점
     private double avg;
+
+    // 리뷰수
     private Long reviewCnt;
+
 }

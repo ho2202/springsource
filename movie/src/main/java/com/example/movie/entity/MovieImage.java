@@ -1,5 +1,6 @@
 package com.example.movie.entity;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,14 +14,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
 @ToString(exclude = "movie")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Entity
 public class MovieImage {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long inum;
@@ -31,4 +33,5 @@ public class MovieImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
+
 }
