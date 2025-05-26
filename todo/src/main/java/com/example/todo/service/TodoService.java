@@ -54,4 +54,18 @@ public class TodoService {
         // todos.add(dto);
         // });
     }
+
+    // React
+    public List<TodoDTO> list2() {
+        List<Todo> list = todoRepository.findAll();
+
+        List<TodoDTO> todos = list.stream().map(todo -> modelMapper.map(todo, TodoDTO.class))
+                .collect(Collectors.toList());
+        return todos;
+    }
+
+    public TodoDTO create2(TodoDTO dto) {
+        Todo todo = modelMapper.map(dto, Todo.class);
+        return modelMapper.map(todoRepository.save(todo), TodoDTO.class);
+    }
 }
