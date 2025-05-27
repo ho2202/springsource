@@ -1,4 +1,4 @@
-package com.example.novel;
+package com.example.novels;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
