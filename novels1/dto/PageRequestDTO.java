@@ -26,7 +26,6 @@ public class PageRequestDTO {
     // 검색
     @Builder.Default
     private String type = "";
-
     @Builder.Default
     private String keyword = "";
 }

@@ -1,25 +1,19 @@
 package com.example.novels.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 @Getter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Entity
 public class Member {
 
     @Id
@@ -30,5 +24,4 @@ public class Member {
     private String nickname;
 
     private boolean social;
-
 }

@@ -20,15 +20,14 @@ public class NovelDTO {
     private Long id;
     private String title;
     private String author;
-    private LocalDate publishedDate;
-    private boolean available;
 
-    // 장르아이디
-    private Long gid;
-    // 장르명
+    private LocalDate publishedDate; // 출판일
+
+    private boolean available; // 이용 가능
+
+    // 장르
     private String genreName;
+    private Long gid;
 
-    // 평점
     private int rating;
-
 }

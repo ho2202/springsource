@@ -16,13 +16,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
 @Getter
 @ToString(exclude = "genre")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
 public class Novel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "novel_id")
@@ -34,10 +35,10 @@ public class Novel {
     @Column(nullable = false)
     private String author;
 
-    @Column(nullable = false)
     private LocalDate publishedDate; // 출판일
 
-    private boolean available; // 이용 가능
+    @Column(nullable = false)
+    private boolean available;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "GENRE_ID")

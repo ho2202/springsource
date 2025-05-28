@@ -14,27 +14,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 @Getter
 @ToString(exclude = { "novel", "member" })
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Entity
 public class Grade {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "grade_id")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "NOVEL_ID")
+    private Novel novel;
 
     @Column(nullable = false)
     private int rating;
 
-    @JoinColumn(name = "novel_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Novel novel;
-
-    @JoinColumn(name = "member_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 }

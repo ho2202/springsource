@@ -11,12 +11,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
 @Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
 public class Genre {
 
     @Id
@@ -25,5 +25,5 @@ public class Genre {
     private Long id;
 
     @Column(nullable = false, name = "genre_name")
-    private String name;
+    private String name; // 장르명
 }

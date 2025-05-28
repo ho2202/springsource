@@ -2,33 +2,28 @@ package com.example.novels.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 @Getter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Entity
-public class Member {
+public class Genre {
 
     @Id
-    private String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "genre_id")
+    private Long id;
 
-    private String pw;
-
-    private String nickname;
-
-    private boolean social;
-
+    @Column(nullable = false, name = "genre_name")
+    private String name;
 }

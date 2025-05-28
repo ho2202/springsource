@@ -35,7 +35,6 @@ public class SearchNovelRepositoryImp extends QuerydslRepositorySupport implemen
         QGrade grade = QGrade.grade;
 
         JPQLQuery<Novel> query = from(novel);
-        // query.leftJoin(novel.genre, genre);
         query.leftJoin(genre).on(novel.genre.eq(genre));
         query.where(novel.id.eq(id));
 
@@ -45,8 +44,8 @@ public class SearchNovelRepositoryImp extends QuerydslRepositorySupport implemen
                 .groupBy(grade.novel);
 
         JPQLQuery<Tuple> tuple = query.select(novel, genre, ratingAvg);
-
-        return tuple.fetchFirst().toArray();
+        Tuple result = tuple.fetchFirst();
+        return result.toArray();
     }
 
     @Override
@@ -62,17 +61,21 @@ public class SearchNovelRepositoryImp extends QuerydslRepositorySupport implemen
                 .from(grade)
                 .where(grade.novel.eq(novel))
                 .groupBy(grade.novel);
+
         JPQLQuery<Tuple> tuple = query.select(novel, genre, ratingAvg);
 
-        // 검색
         BooleanBuilder builder = new BooleanBuilder();
         BooleanExpression expression = novel.id.gt(0);
         builder.and(expression);
+
+        // 검색
+
         tuple.where(builder);
         // Sort 생성
         Sort sort = pageable.getSort();
         // sort 기준이 여러개 일 수 있어서
         sort.stream().forEach(order -> {
+            // import com.querydsl.core.types.Order;
             Order direction = order.isAscending() ? Order.ASC : Order.DESC;
 
             String prop = order.getProperty();
