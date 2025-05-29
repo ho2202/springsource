@@ -33,6 +33,12 @@ public class NovelRestController {
         return novelService.avaUpdate(novelDTO);
     }
 
+    @PutMapping("/edit/{id}")
+    public Long putPubNovel(@RequestBody NovelDTO novelDTO) {
+        log.info("출판일 수정 {}", novelDTO);
+        return novelService.pubUpdate(novelDTO);
+    }
+
     @PostMapping("/add")
     public Long postNovel(@RequestBody NovelDTO novelDTO) {
         log.info("추가 {}", novelDTO);
