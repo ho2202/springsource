@@ -19,12 +19,18 @@ class ReplyApplicationTests {
 	private MovieRepository movieRepository;
 
 	@Test
+	void first() {
+		Movie movie = Movie.builder().title("title").build();
+		movieRepository.save(movie);
+	}
+
+	@Test
 	void contextLoads() {
 		IntStream.rangeClosed(1, 20).forEach(i -> {
 
 			Member me = Member.builder().build();
 			memberRepository.save(me);
-			Movie movie = Movie.builder().title("title").mno((long) (i)).build();
+			Movie movie = Movie.builder().title("title").build();
 			movieRepository.save(movie);
 		});
 	}

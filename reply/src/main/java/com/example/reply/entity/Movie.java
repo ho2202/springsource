@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +21,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "TMovie")
+
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +30,6 @@ public class Movie {
 
     private String title;
     @Builder.Default
-    @OneToMany(mappedBy = "board") // 관계 주인은 reply, board는 필요할 때만
+    @OneToMany(mappedBy = "movie") // 관계 주인은 reply, movie는 필요할 때만
     private List<Reply> replies = new ArrayList<>();
 }
