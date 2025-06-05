@@ -1,7 +1,14 @@
 package com.example.reply.entity;
 
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,8 +29,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @Table(name = "TReply")
+@EntityListeners(value = AuditingEntityListener.class)
 
-public class Reply extends BaseEntity {
+public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rno;
@@ -31,22 +39,30 @@ public class Reply extends BaseEntity {
     @Column(nullable = false)
     private String text;
 
-    @Builder.Default
-    // 댓글의 추천수
-    private int recommend = 0;
-
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "replyer")
     private Member replyer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mid")
     private Movie movie;
 
-    // 대상 댓글의 rno
+    @Builder.Default
+    // 댓글의 추천수
+    private int recommend = 0;
+
+    // 부모 댓글의 rno
     private Long ref;
 
-    // 대상의 유저 아이디
+    // 부모 댓글의 유저 아이디
     private Long mention;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    private LocalDateTime updatedDate;
 
     public void changeText(String text) {
         this.text = text;

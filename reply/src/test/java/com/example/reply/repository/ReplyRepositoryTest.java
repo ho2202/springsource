@@ -38,9 +38,9 @@ public class ReplyRepositoryTest {
 
     @Test
     void testInsertReply() {
-        Movie movie = Movie.builder().mno(1L).build();
+        Movie movie = Movie.builder().mid(1L).build();
         Reply reply = Reply.builder()
-                .replyer(Member.builder().mno(1L).build())
+                .replyer(Member.builder().userCode(1L).build())
                 .movie(movie)
                 .text("test1")
                 .build();
@@ -49,12 +49,12 @@ public class ReplyRepositoryTest {
 
     @Test
     void testInsertReReply() {
-        Movie movie = Movie.builder().mno(1L).build();
+        Movie movie = Movie.builder().mid(1L).build();
         Reply reply = Reply.builder()
-                .replyer(Member.builder().mno(2L).build())
+                .replyer(Member.builder().userCode(2L).build())
                 .movie(movie)
                 .text("test reply")
-                .ref(8l)
+                .ref(11l)
                 .mention(1L)
                 .build();
         replyRepository.save(reply);
@@ -63,14 +63,15 @@ public class ReplyRepositoryTest {
     @Test
     void testselete() {
         // Long id = movieRepository.findById(1l).get().getMno();
-        Movie movie = movieRepository.findById(2l).get();
+        Movie movie = movieRepository.findById(1l).get();
         List<Reply> list = replyRepository.findByMovie(movie);
 
         list.forEach(elem -> {
-            if (elem.getRef() != null) {
-                List<Reply> rereplies = replyRepository.findByRef(elem.getRef());
-                log.info(rereplies);
-            }
+            // if (elem.getRef() != null) {
+            // List<Reply> rereplies = replyRepository.findByRef(elem.getRef());
+            // log.info(rereplies);
+            // }
+            log.info(elem);
         });
     }
 

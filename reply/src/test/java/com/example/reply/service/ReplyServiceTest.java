@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.reply.dto.ReplyDto;
+import com.example.reply.dto.ReplyDTO;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -17,16 +17,16 @@ public class ReplyServiceTest {
 
     @Test
     void testInsertReply() {
-        ReplyDto dto = ReplyDto.builder()
+        ReplyDTO dto = ReplyDTO.builder()
                 .text("123")
-                .replyer(1L)
-                .mno(1L)
+                .replyerId(1L)
+                .mno(2L)
                 .build();
         replyService.insert(dto);
 
-        dto = ReplyDto.builder()
+        dto = ReplyDTO.builder()
                 .text("nullll")
-                .replyer(2L)
+                .replyerId(2L)
                 .mno(1L)
                 .ref(3L)
                 .build();

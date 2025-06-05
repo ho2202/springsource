@@ -26,7 +26,7 @@ import lombok.ToString;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long mno;
+    private Long mid;
 
     private String title;
     @Builder.Default
