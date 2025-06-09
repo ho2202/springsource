@@ -6,12 +6,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.reply.dto.RecommendationDTO;
 import com.example.reply.dto.ReplyDTO;
 import com.example.reply.entity.Member;
 import com.example.reply.entity.Movie;
+import com.example.reply.entity.Recommendation;
 import com.example.reply.entity.Reply;
 import com.example.reply.repository.MemberRepository;
 import com.example.reply.repository.MovieRepository;
+import com.example.reply.repository.RecommendRepository;
 import com.example.reply.repository.ReplyRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
     private final MovieRepository movieRepository;
     private final MemberRepository memberRepository;
+    private final RecommendRepository recommendRepository;
 
     public Reply insert(ReplyDTO dto) {
         // Reply reply = Reply.builder()
@@ -35,8 +39,8 @@ public class ReplyService {
     }
 
     // 대댓글 작성
+    // 대댓글을 달 댓글이 존재하지 않으면 널 반환
     public Reply rereplyInsert(ReplyDTO dto) {
-        // 대댓글을 달 댓글이 존재하지 않으면 널 반환
         Optional<Reply> replyOp = replyRepository.findById(dto.getRef());
         log.info("뭐야 {}", replyOp.isPresent());
         log.info("뭐야 {}", dto.getRef());
@@ -59,16 +63,42 @@ public class ReplyService {
         return result;
     }
 
+    // 댓글 내용 변경
+    public ReplyDTO updateReply(ReplyDTO dto) {
+        Reply reply = replyRepository.findById(dto.getRno()).get();
+        reply.changeText(dto.getText());
+
+        return entityToDto(replyRepository.save(reply));
+    }
+
+    public void deleteReply(Long id) {
+        replyRepository.deleteById(id);
+    }
+
     private Reply dtoToEntity(ReplyDTO dto) {
-        Reply reply = Reply.builder()
-                .rno(dto.getRno())
-                .text(dto.getText())
-                .replyer(Member.builder().userCode(dto.getMentionId()).build())
-                .movie(Movie.builder().mid(dto.getMno()).build())
-                .ref(dto.getRef())
-                .mention(dto.getMno())
-                .recommend(dto.getRecommend())
-                .build();
+        Reply reply = null;
+        if (dto.getRef() == null) {
+            // 대댓글이 아니면
+            reply = Reply.builder()
+                    .rno(dto.getRno())
+                    .text(dto.getText())
+                    .replyer(Member.builder().userCode(dto.getReplyerId()).build())
+                    .movie(Movie.builder().mid(dto.getMno()).build())
+                    .mention(dto.getMentionId())
+                    .build();
+        } else if (replyRepository.findById(dto.getRef()).get().getMovie().getMid() == dto.getMno()) {
+            reply = Reply.builder()
+                    .rno(dto.getRno())
+                    .text(dto.getText())
+                    .replyer(Member.builder().userCode(dto.getReplyerId()).build())
+                    .movie(Movie.builder().mid(dto.getMno()).build())
+                    .mention(dto.getMentionId())
+                    .ref(dto.getRef())
+                    .build();
+        } else {
+            // 제거된 댓글에 달 때
+            return null;
+        }
         return reply;
     }
 
@@ -83,6 +113,8 @@ public class ReplyService {
                 .createdDate(reply.getCreatedDate())
                 .updatedDate(reply.getUpdatedDate())
                 .build();
+
+        // 멘션이 있으면 추가해줌
         if (reply.getMention() != null) {
             dto.setMentionId(reply.getMention());
             dto.setMention(memberRepository.findById(reply.getMention()).get().getUserName());
