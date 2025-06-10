@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.reply.entity.Member;
+import com.example.reply.entity.User;
 import com.example.reply.entity.Movie;
 import com.example.reply.repository.MemberRepository;
 import com.example.reply.repository.MovieRepository;
@@ -28,7 +28,7 @@ class ReplyApplicationTests {
 	void contextLoads() {
 		IntStream.rangeClosed(1, 20).forEach(i -> {
 
-			Member me = Member.builder().build();
+			User me = User.builder().build();
 			memberRepository.save(me);
 			Movie movie = Movie.builder().title("title").build();
 			movieRepository.save(movie);

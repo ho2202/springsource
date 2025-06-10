@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.reply.dto.RecommendationDTO;
 import com.example.reply.dto.ReplyDTO;
-import com.example.reply.entity.Member;
+import com.example.reply.entity.User;
 import com.example.reply.entity.Movie;
 import com.example.reply.entity.Recommendation;
 import com.example.reply.entity.Reply;
@@ -82,7 +82,7 @@ public class ReplyService {
             reply = Reply.builder()
                     .rno(dto.getRno())
                     .text(dto.getText())
-                    .replyer(Member.builder().userCode(dto.getReplyerId()).build())
+                    .replyer(User.builder().userName(dto.getReplyerId()).build())
                     .movie(Movie.builder().mid(dto.getMno()).build())
                     .mention(dto.getMentionId())
                     .build();
@@ -90,7 +90,7 @@ public class ReplyService {
             reply = Reply.builder()
                     .rno(dto.getRno())
                     .text(dto.getText())
-                    .replyer(Member.builder().userCode(dto.getReplyerId()).build())
+                    .replyer(User.builder().userName(dto.getReplyerId()).build())
                     .movie(Movie.builder().mid(dto.getMno()).build())
                     .mention(dto.getMentionId())
                     .ref(dto.getRef())
@@ -106,8 +106,8 @@ public class ReplyService {
         ReplyDTO dto = ReplyDTO.builder()
                 .rno(reply.getRno())
                 .text(reply.getText())
-                .replyer(reply.getReplyer().getUserName())
-                .replyerId(reply.getReplyer().getUserCode())
+                .replyer(reply.getReplyer().getUserCode())
+                .replyerId(reply.getReplyer().getUserName())
                 .recommend(reply.getRecommend())
                 .ref(reply.getRef())
                 .createdDate(reply.getCreatedDate())

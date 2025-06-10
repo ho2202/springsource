@@ -17,8 +17,8 @@ public class ReplyDTO {
     private Long rno;
     private String text;
     // 댓글 작성자
-    private String replyer;
-    private Long replyerId;
+    private String replyerId;
+    private Long replyer;
 
     private Long mno;
     private int recommend;

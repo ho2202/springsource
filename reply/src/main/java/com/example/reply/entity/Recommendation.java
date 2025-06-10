@@ -35,5 +35,5 @@ public class Recommendation {
     private Reply reply;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member user;
+    private User user;
 }

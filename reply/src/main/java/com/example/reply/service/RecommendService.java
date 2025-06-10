@@ -3,7 +3,7 @@ package com.example.reply.service;
 import org.springframework.stereotype.Service;
 
 import com.example.reply.dto.RecommendationDTO;
-import com.example.reply.entity.Member;
+import com.example.reply.entity.User;
 import com.example.reply.entity.Recommendation;
 import com.example.reply.entity.Reply;
 import com.example.reply.repository.MemberRepository;
@@ -33,9 +33,9 @@ public class RecommendService {
     // recommendRepository.save(dto);
     // }
     // }
-    public RecommendationDTO recommendReply(Long replyId, Long userId) {
+    public RecommendationDTO recommendReply(Long replyId, String userId) {
         Reply reply = replyRepository.findById(replyId).orElseThrow();
-        Member user = memberRepository.findById(userId).orElseThrow();
+        User user = memberRepository.findById(userId).orElseThrow();
 
         boolean alreadyRecommended = recommendRepository.existsByUserAndReply(user, reply);
         if (alreadyRecommended) {

@@ -11,7 +11,7 @@ import com.example.reply.entity.Reply;
 
 import lombok.extern.log4j.Log4j2;
 
-import com.example.reply.entity.Member;
+import com.example.reply.entity.User;
 
 @Log4j2
 @SpringBootTest
@@ -26,11 +26,11 @@ public class ReplyRepositoryTest {
 
     @Test
     void first() {
-        Member me = Member.builder().build();
+        User me = User.builder().build();
         memberRepository.save(me);
         Movie movie = Movie.builder().title("title1").build();
         movieRepository.save(movie);
-        me = Member.builder().build();
+        me = User.builder().build();
         memberRepository.save(me);
         movie = Movie.builder().title("title2").build();
         movieRepository.save(movie);
@@ -40,7 +40,7 @@ public class ReplyRepositoryTest {
     void testInsertReply() {
         Movie movie = Movie.builder().mid(1L).build();
         Reply reply = Reply.builder()
-                .replyer(Member.builder().userCode(1L).build())
+                .replyer(User.builder().userCode(1L).build())
                 .movie(movie)
                 .text("test1")
                 .build();
@@ -51,7 +51,7 @@ public class ReplyRepositoryTest {
     void testInsertReReply() {
         Movie movie = Movie.builder().mid(1L).build();
         Reply reply = Reply.builder()
-                .replyer(Member.builder().userCode(2L).build())
+                .replyer(User.builder().userCode(2L).build())
                 .movie(movie)
                 .text("test reply")
                 .ref(11l)

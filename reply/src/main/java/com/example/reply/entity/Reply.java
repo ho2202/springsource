@@ -45,7 +45,7 @@ public class Reply {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "replyer")
-    private Member replyer;
+    private User replyer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mid")

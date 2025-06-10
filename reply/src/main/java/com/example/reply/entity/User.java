@@ -17,10 +17,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "TMember")
-public class Member {
+@Table(name = "TUser")
+public class User {
     @Id
+    private String userName;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userCode;
-    private String userName;
 }
