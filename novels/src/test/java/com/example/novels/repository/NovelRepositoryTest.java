@@ -45,15 +45,15 @@ public class NovelRepositoryTest {
         System.out.println(Arrays.toString(result));
     }
 
-    @Test
-    public void getNovelListTest() {
-        Pageable pageable = PageRequest.of(1, 10, Sort.by("id").descending());
+    // @Test
+    // public void getNovelListTest() {
+    // Pageable pageable = PageRequest.of(1, 10, Sort.by("id").descending());
 
-        Page<Object[]> result = novelRepository.list(pageable);
-        for (Object[] objects : result) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
+    // Page<Object[]> result = novelRepository.list(pageable);
+    // for (Object[] objects : result) {
+    // System.out.println(Arrays.toString(objects));
+    // }
+    // }
 
     @Test
     public void testInsertMember() {

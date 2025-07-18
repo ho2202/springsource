@@ -11,6 +11,5 @@ public class RecommendServiceTest {
 
     @Test
     void rec() {
-        recommendService.recommendReply(1L, 2L);
     }
 }

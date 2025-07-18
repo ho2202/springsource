@@ -19,14 +19,14 @@ public class ReplyServiceTest {
     void testInsertReply() {
         ReplyDTO dto = ReplyDTO.builder()
                 .text("123")
-                .replyerId(1L)
+                .replyerId("1")
                 .mno(2L)
                 .build();
         replyService.insert(dto);
 
         dto = ReplyDTO.builder()
                 .text("nullll")
-                .replyerId(2L)
+                .replyerId("2")
                 .mno(1L)
                 .ref(3L)
                 .build();

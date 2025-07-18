@@ -24,7 +24,7 @@ public class HomeController {
 
     @GetMapping("/error")
     public String getError() {
-        return "/except/url404";
+        return "except/url404";
     }
 
 }

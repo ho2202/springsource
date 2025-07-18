@@ -46,7 +46,7 @@ public class UploadController {
 
     @GetMapping("/create")
     public String getUploadForm() {
-        return "/upload/test";
+        return "test";
     }
 
     @PostMapping("/files")
